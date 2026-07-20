@@ -114,19 +114,22 @@
 <h2>Trip info</h2>
 <div class="grid2">
 <div class="card">
-<div class="label">Contacts</div>
-<div class="contact-row"><span class="who">Sean (Group A)</span><span class="num">add number</span></div>
-<div class="contact-row"><span class="who">Sister (Group B)</span><span class="num">add number</span></div>
-<div class="contact-row"><span class="who">Novotel front desk</span><span class="num">add number</span></div>
-<p class="muted" style="margin:8px 0 0;font-size:.8rem">Fill in before sending — handy if anyone gets separated or delayed at immigration.</p>
+<div class="label">Live exchange rate</div>
+<div class="big" id="fxRate">Loading…</div>
+<p class="muted" id="fxSub" style="margin:6px 0 0;font-size:.8rem"></p>
+</div>
+<div class="card">
+<div class="label">Weather forecast · Johor Bahru</div>
+<p class="muted" id="wxCurrent" style="margin:4px 0 10px;font-size:.85rem">Loading current conditions…</p>
+<div id="wxDaily"></div>
+<p class="muted" style="margin:8px 0 0;font-size:.72rem">Live via Open-Meteo · refreshes automatically</p>
+</div>
 </div>
 <div class="card">
 <div class="label">Good to know</div>
-<p class="muted" style="margin:6px 0">🌦️ Tropical weather, roughly 26–33°C with possible showers — pack a light rain jacket or umbrella.</p>
-<p class="muted" style="margin:6px 0">💳 Currency is the Malaysian Ringgit (MYR). Cards work in malls/restaurants; keep small cash for hawker stalls and durian.</p>
 <p class="muted" style="margin:6px 0">🛂 Bring passports for everyone — Saturday queues at the Woodlands/JB checkpoints can be long, so budget extra time.</p>
+<p class="muted" style="margin:6px 0">💳 Cards work in most malls/restaurants; keep small MYR cash for hawker stalls and durian.</p>
 <p class="muted" style="margin:0">📱 Grab is the easiest way to get around JB if the group splits up.</p>
-</div>
 </div>
 <div class="card">
 <div class="label">Packing checklist</div>
@@ -182,7 +185,11 @@ cafes:{img:"https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=fo
 <div class="rec"><strong>Nimmies Pastry Café</strong><small>Established favourite for pastries, brunch and family seating.</small><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Nimmies+Pastry+Cafe+Johor+Bahru">Map</a></div></div>
 <div class="rec"><strong>Space Café</strong><small>Convenient specialty coffee option near KSL.</small><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Space+Cafe+Johor+Bahru">Map</a></div></div>`},
 durian:{img:"https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?auto=format&fit=crop&w=1200&q=86",title:"Durian near KSL",body:`<p>Consider the durian stalls around Jalan Serigala opposite KSL. Confirm daily stock, variety and price before opening the fruit.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Ah+Tong+Durian+Jalan+Serigala+Johor+Bahru">Open map</a></div>`},
-massage:{img:"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=86",title:"Foot reflexology",body:`<p>Century Health Care inside KSL is convenient for parents while other family members shop or eat nearby. Request gentle pressure where appropriate.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Century+Health+Care+KSL+City+Johor+Bahru">Open map</a></div>`},
+massage:{img:"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=86",title:"Top-rated foot reflexology near KSL",body:`
+<div class="rec"><strong>Century Health Care &amp; Beauty</strong><small>The biggest massage outlet at KSL (L1-32/33/34), open 10AM–10PM daily — convenient for parents while others shop nearby.</small><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Century+Health+Care+KSL+City+Johor+Bahru">Map</a></div></div>
+<div class="rec"><strong>QS Reflexology &amp; Therapy (now SQ Massage &amp; Nails)</strong><small>Ground floor of KSL behind Baskin Robbins — clean, and reviewers note it's one of the more affordable options in JB.</small><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=QS+Reflexology+Therapy+KSL+City+Johor+Bahru">Map</a></div></div>
+<div class="rec"><strong>Kuchien Foot Reflexology</strong><small>Two-storey outlet praised for cleanliness and comfy chairs — around RM39/hour for foot reflexology.</small><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Kuchien+Foot+Reflexology+Johor+Bahru">Map</a></div></div>
+<p class="muted" style="font-size:.78rem;margin-top:4px">Based on recent Tripadvisor/Yelp reviews — confirm opening hours before you go.</p>`},
 movie:{img:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=86",title:"Optional movie night",body:`<p>Check the official GSC listing closer to 1 August before purchasing tickets.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.gsc.com.my/">Check GSC</a></div>`}};
 const modal=document.getElementById("modal"),modalImg=document.getElementById("modalImg"),modalBody=document.getElementById("modalBody"),closeBtn=document.querySelector(".close");
 let lastFocused=null;
@@ -208,6 +215,42 @@ const data={title:document.title,text:"Our JB family trip itinerary",url:locatio
 if(navigator.share){try{await navigator.share(data);return}catch(e){return}}
 try{await navigator.clipboard.writeText(location.href);const old=shareBtn.textContent;shareBtn.textContent="Link copied!";setTimeout(()=>shareBtn.textContent=old,1800)}catch(e){alert("Copy this page's link to share it:\n"+location.href)}
 });
+
+async function loadFx(){
+const rateEl=document.getElementById("fxRate"),subEl=document.getElementById("fxSub");
+if(!rateEl)return;
+try{
+const r=await fetch("https://open.er-api.com/v6/latest/SGD");
+const d=await r.json();
+const rate=d.rates.MYR;
+rateEl.textContent=`1 SGD = ${rate.toFixed(3)} MYR`;
+const updated=new Date(d.time_last_update_utc).toLocaleString("en-SG",{dateStyle:"medium",timeStyle:"short"});
+subEl.textContent=`100 SGD ≈ ${(rate*100).toFixed(0)} MYR · rates refresh daily · updated ${updated}`;
+}catch(e){
+rateEl.textContent="Rate unavailable";
+subEl.textContent="Couldn't load a live rate — check xe.com before exchanging cash.";
+}
+}
+loadFx();setInterval(loadFx,30*60*1000);
+
+const wxIcons={0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌦️",56:"🌦️",57:"🌦️",61:"🌧️",63:"🌧️",65:"🌧️",66:"🌧️",67:"🌧️",71:"🌨️",73:"🌨️",75:"🌨️",80:"🌧️",81:"🌧️",82:"⛈️",95:"⛈️",96:"⛈️",99:"⛈️"};
+async function loadWx(){
+const curEl=document.getElementById("wxCurrent"),dailyEl=document.getElementById("wxDaily");
+if(!curEl)return;
+try{
+const r=await fetch("https://api.open-meteo.com/v1/forecast?latitude=1.4927&longitude=103.7414&current=temperature_2m,weathercode,relative_humidity_2m&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FSingapore&start_date=2026-08-01&end_date=2026-08-02");
+const d=await r.json();
+const c=d.current;
+curEl.innerHTML=`${wxIcons[c.weathercode]||"🌡️"} <strong>${Math.round(c.temperature_2m)}°C</strong> right now in JB · ${c.relative_humidity_2m}% humidity`;
+if(d.daily&&d.daily.time){
+const labels=["Sat 1 Aug","Sun 2 Aug"];
+dailyEl.innerHTML=d.daily.time.map((t,i)=>`<div class="contact-row"><span class="who">${labels[i]||t}</span><span class="num">${wxIcons[d.daily.weathercode[i]]||"🌡️"} ${Math.round(d.daily.temperature_2m_min[i])}–${Math.round(d.daily.temperature_2m_max[i])}°C · ${d.daily.precipitation_probability_max[i]}% rain</span></div>`).join("");
+}
+}catch(e){
+curEl.textContent="Live weather unavailable right now — try refreshing the page.";
+}
+}
+loadWx();setInterval(loadWx,15*60*1000);
 </script>
 </body>
 </html>
