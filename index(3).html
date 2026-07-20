@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynh1MZtYN1uQcMZ3N1pM0S7l+4R0=" crossorigin="" />
+  <title>JB Family Getaway • 1–2 Aug 2026</title>
+  <style>
+    :root{
+      --bg:#f4f5f7; --card:#ffffff; --ink:#172033; --muted:#687387;
+      --accent:#0f766e; --accent2:#14b8a6; --gold:#b7791f;
+      --line:#e6e9ee; --shadow:0 12px 34px rgba(20,30,50,.09);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,
+      "Segoe UI",Roboto,Arial,sans-serif; color:var(--ink); background:
+      radial-gradient(circle at top right,#ccfbf1 0,transparent 25rem),var(--bg);
+      line-height:1.5;
+    }
+    .wrap{max-width:860px;margin:auto;padding:18px 16px 70px}
+    .hero{
+      color:white; padding:30px 24px; border-radius:24px;
+      background:linear-gradient(135deg,#111827,#0f766e);
+      box-shadow:var(--shadow); position:relative; overflow:hidden;
+    }
+    .hero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;
+      background:rgba(255,255,255,.08);right:-70px;top:-90px}
+    .eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;opacity:.78}
+    h1{font-size:clamp(2rem,8vw,3.5rem);line-height:1.02;margin:8px 0 12px}
+    .hero p{margin:0;max-width:590px;color:#d9fffa}
+    .pills{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+    .pill{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;padding:7px 11px;font-size:.85rem}
+    .quicknav{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:15px 0}
+    .quicknav a,.btn{
+      text-decoration:none;text-align:center;border-radius:13px;padding:12px 9px;
+      background:white;color:var(--ink);font-weight:700;border:1px solid var(--line)
+    }
+    .section{margin-top:18px}
+    .section h2{font-size:1.2rem;margin:0 0 10px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+      box-shadow:0 7px 24px rgba(20,30,50,.05);padding:18px;margin-bottom:12px}
+    .groupgrid,.venuegrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .group{border-left:4px solid var(--accent2)}
+    .group.b{border-left-color:#f59e0b}
+    .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+    .big{font-size:1.1rem;font-weight:800;margin:2px 0 5px}
+    .muted{color:var(--muted)}
+    .timeline{position:relative;margin-left:5px}
+    .timeline:before{content:"";position:absolute;left:14px;top:10px;bottom:10px;width:2px;background:#d8e2e2}
+    .item{position:relative;padding:0 0 19px 48px}
+    .item:last-child{padding-bottom:2px}
+    .dot{position:absolute;left:2px;top:2px;width:26px;height:26px;border-radius:50%;
+      background:#dff8f4;border:6px solid white;box-shadow:0 0 0 2px var(--accent)}
+    .time{font-weight:800;color:var(--accent)}
+    .title{font-weight:800;font-size:1.03rem}
+    .tag{display:inline-block;font-size:.72rem;font-weight:750;padding:3px 8px;border-radius:999px;
+      background:#eef2f7;color:#465166;margin-top:6px}
+    .tag.all{background:#dcfce7;color:#166534}.tag.optional{background:#fff7ed;color:#9a3412}
+    .venue h3{margin:2px 0 6px;font-size:1.12rem}
+    .venue p{margin:6px 0}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+    .actions a{flex:1;min-width:125px}
+    .primary{background:var(--accent)!important;color:white!important;border-color:var(--accent)!important}
+    .notice{border-left:5px solid var(--gold);background:#fffaf0}
+    .footer{text-align:center;color:var(--muted);font-size:.84rem;padding:18px}
+    .sharebar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.93);
+      backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:9px 16px calc(9px + env(safe-area-inset-bottom));
+      display:flex;gap:9px;justify-content:center;z-index:5}
+    .sharebar button,.sharebar a{max-width:250px;flex:1;border:none;cursor:pointer;font:inherit}
+    @media(max-width:650px){
+      .quicknav{grid-template-columns:1fr 1fr}
+      .groupgrid,.venuegrid{grid-template-columns:1fr}
+      .hero{padding:26px 20px}
+    }
+    @media print{
+      .sharebar,.quicknav{display:none}.wrap{padding:0}.card,.hero{box-shadow:none}
+      body{background:white}
+    }
+  
+    .map-shell{padding:0;overflow:hidden}
+    #tripMap{height:480px;width:100%;background:#e5e7eb}
+    .map-toolbar{display:flex;gap:8px;flex-wrap:wrap;padding:14px;border-bottom:1px solid var(--line)}
+    .map-filter{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;
+      padding:8px 12px;font-weight:750;cursor:pointer}
+    .map-filter.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+    .map-note{padding:12px 16px;color:var(--muted);font-size:.86rem;border-top:1px solid var(--line)}
+    .leaflet-popup-content-wrapper{border-radius:14px}
+    .leaflet-popup-content{margin:13px 15px;min-width:190px}
+    .popup-title{font-weight:850;margin-bottom:4px}
+    .popup-meta{color:#687387;font-size:.84rem;margin-bottom:10px}
+    .popup-link{display:inline-block;text-decoration:none;background:#0f766e;color:#fff;
+      padding:7px 10px;border-radius:9px;font-weight:750}
+    .gallery-wrap{position:relative}
+    .gallery{
+      display:grid;grid-auto-flow:column;grid-auto-columns:minmax(260px,74%);
+      overflow-x:auto;gap:12px;scroll-snap-type:x mandatory;padding-bottom:8px;
+      scrollbar-width:thin
+    }
+    .gallery-card{scroll-snap-align:start;position:relative;height:265px;border-radius:18px;
+      overflow:hidden;background:#dbe4e8;box-shadow:0 8px 22px rgba(20,30,50,.09)}
+    .gallery-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
+    .gallery-card:active img{transform:scale(1.02)}
+    .gallery-overlay{position:absolute;inset:auto 0 0;padding:34px 16px 15px;color:#fff;
+      background:linear-gradient(transparent,rgba(5,15,25,.88))}
+    .gallery-title{font-weight:850;font-size:1.02rem}
+    .gallery-sub{font-size:.82rem;opacity:.88}
+    .gallery-hint{font-size:.82rem;color:var(--muted);margin:8px 0 0}
+    .mobile-actions{display:none}
+    @media(max-width:650px){
+      #tripMap{height:410px}
+      .gallery{grid-auto-columns:86%}
+      .gallery-card{height:230px}
+      .map-toolbar{overflow-x:auto;flex-wrap:nowrap;padding:11px}
+      .map-filter{white-space:nowrap}
+      .mobile-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+    }
+
+  
+    .gallery-card{cursor:pointer;border:0;padding:0;text-align:left;font:inherit}
+    .gallery-card:focus-visible{outline:4px solid rgba(20,184,166,.35);outline-offset:3px}
+    .modal{
+      position:fixed;inset:0;z-index:1000;display:none;align-items:flex-end;justify-content:center;
+      background:rgba(4,12,22,.72);backdrop-filter:blur(7px);padding:18px
+    }
+    .modal.open{display:flex}
+    .modal-panel{
+      width:min(720px,100%);max-height:min(86vh,820px);overflow:auto;background:#fff;
+      border-radius:24px 24px 18px 18px;box-shadow:0 30px 80px rgba(0,0,0,.35);
+      animation:modalUp .22s ease-out
+    }
+    @keyframes modalUp{from{transform:translateY(24px);opacity:.5}to{transform:none;opacity:1}}
+    .modal-hero{height:220px;position:relative;background:#dbe4e8}
+    .modal-hero img{width:100%;height:100%;object-fit:cover}
+    .modal-close{
+      position:absolute;right:12px;top:12px;width:42px;height:42px;border:0;border-radius:50%;
+      background:rgba(17,24,39,.82);color:#fff;font-size:24px;cursor:pointer;display:grid;place-items:center
+    }
+    .modal-body{padding:20px}
+    .modal-body h3{font-size:1.45rem;margin:0 0 7px}
+    .modal-body p{margin:7px 0}
+    .cafe-list{display:grid;gap:11px;margin-top:16px}
+    .cafe-rec{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fafbfc}
+    .cafe-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .cafe-name{font-weight:850}
+    .cafe-badge{white-space:nowrap;font-size:.71rem;font-weight:800;padding:4px 8px;border-radius:999px;
+      background:#dcfce7;color:#166534}
+    .cafe-why{font-size:.9rem;color:var(--muted);margin:5px 0 9px}
+    .cafe-meta{font-size:.8rem;color:#475569}
+    .cafe-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .cafe-actions a{text-decoration:none;font-size:.82rem;font-weight:800;padding:8px 10px;border-radius:9px;
+      border:1px solid var(--line);color:var(--ink);background:#fff}
+    .cafe-actions a:first-child{background:var(--accent);border-color:var(--accent);color:#fff}
+    .trend-note{font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:16px}
+    body.modal-open{overflow:hidden}
+    @media(min-width:651px){
+      .modal{align-items:center}
+      .modal-panel{border-radius:24px}
+    }
+
+  
+    .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .choice-card{border:1px solid var(--line);border-radius:18px;padding:16px;background:#fff}
+    .choice-icon{font-size:1.7rem}
+    .choice-card h3{margin:7px 0 4px;font-size:1.05rem}
+    .choice-card p{margin:5px 0;color:var(--muted);font-size:.9rem}
+    .choice-foot{margin-top:10px;font-size:.78rem;font-weight:800;color:#475569}
+    @media(max-width:650px){.choice-grid{grid-template-columns:1fr}}
+
+  
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .section-head h2{margin:0}
+    .section-toggle{
+      border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;
+      padding:8px 11px;font-weight:800;cursor:pointer
+    }
+    .section-body.collapsed{display:none}
+    .jump-card{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+    .jump-card a{
+      text-decoration:none;background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.2);
+      border-radius:14px;padding:11px;text-align:center;font-weight:800
+    }
+    .next-stop{
+      display:grid;grid-template-columns:1.3fr .7fr;gap:12px;align-items:center;
+      background:linear-gradient(135deg,#ecfdf5,#f8fafc);border:1px solid #ccefe5
+    }
+    .next-stop .route-actions{display:grid;gap:8px}
+    .route-chip{display:inline-flex;align-items:center;gap:7px;padding:6px 9px;border-radius:999px;
+      background:#e2e8f0;color:#334155;font-size:.78rem;font-weight:800}
+    .mini-route{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;
+      padding:10px 0;border-bottom:1px solid var(--line)}
+    .mini-route:last-child{border-bottom:0}
+    .step-no{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#0f766e;color:#fff;font-weight:850}
+    .step-arrow{color:#94a3b8;font-size:1.1rem}
+    .mobile-nav{
+      position:fixed;left:50%;transform:translateX(-50%);bottom:12px;z-index:30;
+      width:min(94%,620px);display:grid;grid-template-columns:repeat(5,1fr);gap:4px;
+      padding:7px;background:rgba(17,24,39,.93);backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,.12);border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.28)
+    }
+    .mobile-nav a{
+      color:#cbd5e1;text-decoration:none;text-align:center;border-radius:12px;padding:7px 4px;
+      font-size:.68rem;font-weight:800
+    }
+    .mobile-nav a span{display:block;font-size:1rem;line-height:1.1;margin-bottom:2px}
+    .mobile-nav a.active{background:#0f766e;color:#fff}
+    .back-top{
+      position:fixed;right:18px;bottom:92px;z-index:25;width:44px;height:44px;border:0;border-radius:50%;
+      background:#fff;color:#0f172a;box-shadow:0 8px 24px rgba(0,0,0,.18);font-size:20px;cursor:pointer;display:none
+    }
+    .back-top.show{display:grid;place-items:center}
+    .status-banner{
+      position:sticky;top:0;z-index:20;margin:12px 0;background:rgba(255,255,255,.95);
+      backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:14px;
+      padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:10px;
+      box-shadow:0 6px 18px rgba(20,30,50,.06)
+    }
+    .status-main{font-weight:850}
+    .status-sub{font-size:.8rem;color:var(--muted)}
+    .compact-actions{display:flex;gap:7px;flex-wrap:wrap}
+    .compact-actions a{font-size:.78rem;padding:7px 9px}
+    @media(max-width:650px){
+      .quicknav{display:none}
+      .wrap{padding-bottom:120px}
+      .sharebar{bottom:74px}
+      .jump-card{grid-template-columns:1fr 1fr}
+      .next-stop{grid-template-columns:1fr}
+      .status-banner{top:8px}
+      .status-banner .compact-actions{display:none}
+    }
+    @media(min-width:651px){
+      .mobile-nav{display:none}
+      .back-top{bottom:24px}
+    }
+
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Family Trip • Johor Bahru</div>
+    <h1>JB Weekend<br>Getaway</h1>
+    <p>A flexible family itinerary with two main gathering points, while allowing each group to enjoy its own activities.</p>
+    <div class="pills">
+      <span class="pill">Sat–Sun • 1–2 Aug 2026</span>
+      <span class="pill">10 people at dinner</span>
+      <span class="pill">Hotel: Novotel JB City Centre</span>
+    </div>
+  
+    <div class="jump-card">
+      <a href="#saturday">Day 1</a>
+      <a href="#sunday">Day 2</a>
+      <a href="#map">Interactive Map</a>
+    </div>
+
+  </header>
+
+  <nav class="quicknav">
+    <a href="#groups">Groups</a>
+    <a href="#saturday">Saturday</a>
+    <a href="#map">Map</a>
+    <a href="#gallery">Gallery</a>
+  </nav>
+
+  <div class="status-banner">
+    <div>
+      <div class="status-main">JB Family Getaway</div>
+      <div class="status-sub">Main meet-ups: Mermaid 12:00 PM · BOTTEGA 6:00 PM</div>
+    </div>
+    <div class="compact-actions">
+      <a class="btn primary" href="#map">Map</a>
+      <a class="btn" href="#venues">Venues</a>
+    </div>
+  </div>
+
+
+  
+  <section class="section">
+    <div class="card next-stop">
+      <div>
+        <div class="label">Quick access</div>
+        <div class="big">Your essential Day 1 route</div>
+        <div class="muted">Open the next destination directly without searching through the page.</div>
+        <div style="margin-top:10px">
+          <span class="route-chip">1 Lunch</span>
+          <span class="route-chip">2 Hotel</span>
+          <span class="route-chip">3 Dinner</span>
+          <span class="route-chip">4 Movie</span>
+        </div>
+      </div>
+      <div class="route-actions">
+        <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=The+Mermaid+Restaurant+91+Jalan+Beringin+Johor+Bahru">Start with lunch</a>
+        <a class="btn" href="#map">View all stops</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="groups">
+    <div class="section-head"><h2>Who is joining</h2><button class="section-toggle" type="button" aria-expanded="true">Hide</button></div>
+    <div class="section-body">
+    <div class="groupgrid">
+      <div class="card group">
+        <div class="label">Group A • Staying at Novotel</div>
+        <div class="big">Sean’s family + parents</div>
+        <div class="muted">6 people — Sean’s family of four, plus Sean’s parents.</div>
+      </div>
+      <div class="card group b">
+        <div class="label">Group B • Joining directly</div>
+        <div class="big">Sister’s family</div>
+        <div class="muted">4 people — free to arrange their own travel and afternoon activities.</div>
+      </div>
+    </div>
+      </div>
+  </section>
+
+  <section class="section" id="saturday">
+    <div class="section-head"><h2>Saturday, 1 August</h2><button class="section-toggle" type="button" aria-expanded="true">Hide</button></div>
+    <div class="section-body">
+    <div class="card">
+      <div class="timeline">
+        <div class="item"><span class="dot"></span>
+          <div class="time">Morning</div>
+          <div class="title">Travel from Singapore via Woodlands</div>
+          <div class="muted">All groups may travel together or make their own separate travel arrangements. Allow extra buffer for Saturday immigration queues.</div>
+          <span class="tag optional">Flexible arrival</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">12:00 PM–1:00 PM</div>
+          <div class="title">Family lunch at The Mermaid Restaurant</div>
+          <div class="muted">Sister’s family joins directly at the restaurant.</div>
+          <span class="tag all">Main gathering • All 10</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">After lunch</div>
+          <div class="title">Split into flexible groups</div>
+          <div class="muted">Sean accompanies his family and parents to Novotel for check-in. Sister’s family may shop, café-hop, rest, or follow its own plan.</div>
+          <span class="tag optional">Independent activities</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">Around 1:30 PM onward</div>
+          <div class="title">Novotel check-in and rest</div>
+          <div class="muted">Group A can relax at the hotel or explore KSL and nearby cafés without a fixed programme.</div>
+          <span class="tag">Group A</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">6:00 PM</div>
+          <div class="title">Dinner at BOTTEGA JB</div>
+          <div class="muted">Indoor table reserved under Sean Lim. Reservation: <strong>#PUZAGBU8N3S</strong>.</div>
+          <span class="tag all">Main gathering • Party of 10</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">After dinner</div>
+          <div class="title">The Odyssey at GSC KSL City</div>
+          <div class="muted">Target a late-night screening. Exact 1 August showtime should be reconfirmed through GSC nearer the date.</div>
+          <span class="tag optional">Optional</span>
+        </div>
+      </div>
+    </div>
+      </div>
+  </section>
+
+  <section class="section" id="venues">
+    <div class="section-head"><h2>Key venues</h2><button class="section-toggle" type="button" aria-expanded="true">Hide</button></div>
+    <div class="section-body">
+    <div class="venuegrid">
+      <article class="card venue">
+        <div class="label">Lunch • 12:00 PM</div>
+        <h3>The Mermaid Restaurant</h3>
+        <p>91 & 93, Jalan Beringin, Taman Melodies, 80250 Johor Bahru, Johor, Malaysia</p>
+        <p class="muted">Seafood restaurant • WhatsApp: +60 13-338 8118</p>
+        <div class="actions">
+          <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=The+Mermaid+Restaurant+91+Jalan+Beringin+Johor+Bahru">Open Map</a>
+          <a class="btn" target="_blank" href="https://www.themermaid.com.my/">Website</a>
+        </div>
+      </article>
+
+      <article class="card venue">
+        <div class="label">Dinner • 6:00 PM</div>
+        <h3>BOTTEGA JB</h3>
+        <p>8, Jalan Meranti, Taman Melodies, 80250 Johor Bahru, Johor, Malaysia</p>
+        <p class="muted">Indoor • Party of 10 • Reservation #PUZAGBU8N3S</p>
+        <div class="actions">
+          <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Bottega+JB+8+Jalan+Meranti+Johor+Bahru">Open Map</a>
+          <a class="btn" target="_blank" href="https://jb.bottega.my/">Website</a>
+        </div>
+      </article>
+
+      <article class="card venue">
+        <div class="label">Hotel • Group A</div>
+        <h3>Novotel Johor Bahru City Centre</h3>
+        <p>Jalan Pelanduk, Taman Abad, 80250 Johor Bahru, Johor, Malaysia</p>
+        <div class="actions">
+          <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Novotel+Johor+Bahru+City+Centre">Open Map</a>
+          <a class="btn" target="_blank" href="https://all.accor.com/hotel/B585/index.en.shtml">Hotel Website</a>
+        </div>
+      </article>
+
+      <article class="card venue">
+        <div class="label">Optional movie • Late night</div>
+        <h3>GSC KSL City Mall</h3>
+        <p>Level 2, KSL City Mall, 33 Jalan Seladang, 80250 Johor Bahru, Johor, Malaysia</p>
+        <div class="actions">
+          <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=GSC+KSL+City+Mall">Open Map</a>
+          <a class="btn" target="_blank" href="https://www.gsc.com.my/">Check Showtimes</a>
+        </div>
+      </article>
+    </div>
+      </div>
+  </section>
+
+
+  
+  <section class="section">
+    <div class="section-head"><h2>Day 1 route sequence</h2></div>
+    <div class="card">
+      <div class="mini-route"><div class="step-no">1</div><div><strong>The Mermaid Restaurant</strong><div class="muted">12:00 PM family lunch</div></div><div class="step-arrow">→</div></div>
+      <div class="mini-route"><div class="step-no">2</div><div><strong>Novotel JB City Centre</strong><div class="muted">Group A check-in and rest</div></div><div class="step-arrow">→</div></div>
+      <div class="mini-route"><div class="step-no">3</div><div><strong>BOTTEGA JB</strong><div class="muted">6:00 PM family dinner</div></div><div class="step-arrow">→</div></div>
+      <div class="mini-route"><div class="step-no">4</div><div><strong>GSC KSL City</strong><div class="muted">Optional late-night movie</div></div><div class="step-arrow">✓</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="map">
+    <div class="section-head"><h2>Interactive trip map</h2><button class="section-toggle" type="button" aria-expanded="true">Hide</button></div>
+    <div class="section-body">
+    <div class="card map-shell">
+      <div class="map-toolbar" aria-label="Map filters">
+        <button class="map-filter active" data-filter="all">All places</button>
+        <button class="map-filter" data-filter="hotel">Hotel</button>
+        <button class="map-filter" data-filter="meal">Meals</button>
+        <button class="map-filter" data-filter="movie">Movie</button>
+        <button class="map-filter" data-filter="cafe">Cafés</button>
+        <button class="map-filter" data-filter="durian">Durian</button>
+        <button class="map-filter" data-filter="massage">Massage</button>
+        <button class="map-filter" data-filter="transport">Transport</button>
+      </div>
+      <div id="tripMap" role="application" aria-label="Map showing the Johor Bahru itinerary locations"></div>
+      <div class="map-note">
+        Tap a marker for venue details and one-tap Google Maps directions. Pin positions are intended for trip planning; use the navigation button for final routing.
+      </div>
+    </div>
+      </div>
+  </section>
+
+  <section class="section" id="gallery">
+    <div class="section-head"><h2>Trip inspiration gallery</h2><button class="section-toggle" type="button" aria-expanded="true">Hide</button></div>
+    <div class="section-body">
+    <div class="card gallery-wrap">
+      <div class="gallery" aria-label="Swipeable travel photo gallery">
+        <button class="gallery-card" type="button" data-modal="hotel">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1000&q=82" alt="Modern city hotel interior">
+          <figcaption class="gallery-overlay"><div class="gallery-title">Hotel stay</div><div class="gallery-sub">Rest and regroup after lunch</div></figcaption>
+        </button>
+        <button class="gallery-card" type="button" data-modal="lunch">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1000&q=82" alt="Seafood dining table">
+          <figcaption class="gallery-overlay"><div class="gallery-title">Family lunch</div><div class="gallery-sub">The Mermaid Restaurant</div></figcaption>
+        </button>
+        <button class="gallery-card" type="button" data-modal="dinner">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1579684947550-22e945225d9a?auto=format&fit=crop&w=1000&q=82" alt="Italian restaurant dining">
+          <figcaption class="gallery-overlay"><div class="gallery-title">Dinner gathering</div><div class="gallery-sub">BOTTEGA JB • 6:00 PM</div></figcaption>
+        </button>
+        <button class="gallery-card" type="button" data-modal="movie">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1000&q=82" alt="Cinema auditorium">
+          <figcaption class="gallery-overlay"><div class="gallery-title">Movie night</div><div class="gallery-sub">GSC KSL City • Optional</div></figcaption>
+        </button>
+        <button class="gallery-card" type="button" data-modal="cafes">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=82" alt="Stylish café interior">
+          <figcaption class="gallery-overlay"><div class="gallery-title">Café time</div><div class="gallery-sub">Flexible afternoon or Sunday stop</div></figcaption>
+        </button>
+        
+        <button class="gallery-card" type="button" data-modal="durian">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?auto=format&fit=crop&w=1000&q=82" alt="Fresh durian fruit opened for eating">
+          <figcaption class="gallery-overlay"><div class="gallery-title">Durian stop</div><div class="gallery-sub">Day 2 option near KSL</div></figcaption>
+        </button>
+        <button class="gallery-card" type="button" data-modal="massage">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1000&q=82" alt="Relaxing foot massage treatment">
+          <figcaption class="gallery-overlay"><div class="gallery-title">Foot reflexology</div><div class="gallery-sub">Day 2 relaxation option</div></figcaption>
+        </button>
+
+        <button class="gallery-card" type="button" data-modal="jb">
+          <img loading="lazy" src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1000&q=82" alt="City skyline at dusk">
+          <figcaption class="gallery-overlay"><div class="gallery-title">Johor Bahru</div><div class="gallery-sub">A relaxed weekend across the city</div></figcaption>
+        </button>
+      </div>
+      <p class="gallery-hint">Swipe left or right on mobile, then tap an image for details and recommendations. Gallery images are illustrative travel visuals.</p>
+    </div>
+      </div>
+  </section>
+
+  <section class="section" id="sunday">
+    <div class="section-head"><h2>Sunday, 2 August</h2><button class="section-toggle" type="button" aria-expanded="true">Hide</button></div>
+    <div class="section-body">
+    <div class="card">
+      <div class="timeline">
+        <div class="item"><span class="dot"></span>
+          <div class="time">Morning</div>
+          <div class="title">Breakfast and relaxed start</div>
+          <div class="muted">Group A has breakfast at Novotel. No common programme is required.</div>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">Check-out</div>
+          <div class="title">Confirm hotel check-out time</div>
+          <div class="muted">Leave luggage with the hotel if the group plans to visit a café or shop before returning to Singapore.</div>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">Late morning / afternoon</div>
+          <div class="title">Own activities and return to Singapore</div>
+          <div class="muted">Each family may decide its own café, shopping and return timing.</div>
+          <span class="tag optional">Fully flexible</span>
+        </div>
+      </div>
+    </div>
+
+      <div class="choice-grid">
+        <article class="choice-card">
+          <div class="choice-icon">🥭</div>
+          <h3>Option A — Durian near KSL</h3>
+          <p>Visit the established durian stalls opposite or beside KSL City Mall. Ah Tong’s / the KSL durian row is convenient and repeatedly mentioned by visitors.</p>
+          <div class="choice-foot">Best for: durian lovers • Short Grab/walk • Seasonal availability</div>
+          <div class="actions">
+            <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Ah+Tong+Durian+28+Jalan+Serigala+Johor+Bahru">Open map</a>
+          </div>
+        </article>
+        <article class="choice-card">
+          <div class="choice-icon">🦶</div>
+          <h3>Option B — TCM foot reflexology</h3>
+          <p>Century Health Care inside KSL offers foot reflexology, meridian massage, gua sha and cupping, with mall convenience and long daily hours.</p>
+          <div class="choice-foot">Best for: parents and tired travellers • Indoor • Easy after check-out</div>
+          <div class="actions">
+            <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Century+Health+Care+KSL+City+Johor+Bahru">Open map</a>
+          </div>
+        </article>
+      </div>
+      </div>
+  </section>
+
+  <div class="card notice">
+    <strong>Important:</strong> The cinema screening time is not treated as confirmed. Check GSC’s official listing nearer 1 August before purchasing tickets.
+  </div>
+
+
+  <div class="card">
+    <div class="label">Recommendation basis</div>
+    <p class="muted">Day 2 options were selected for proximity, family logistics, published service information and recurring traveller/social mentions. Reviews can be subjective, so confirm current opening hours, price and availability before visiting.</p>
+  </div>
+
+  <div class="footer">Prepared for Sean Lim’s family trip • Last updated July 2026</div>
+</div>
+
+
+
+<nav class="mobile-nav" aria-label="Mobile navigation">
+  <a href="#saturday"><span>🗓️</span>Day 1</a>
+  <a href="#venues"><span>📍</span>Venues</a>
+  <a href="#map"><span>🗺️</span>Map</a>
+  <a href="#gallery"><span>✨</span>Ideas</a>
+  <a href="#sunday"><span>☀️</span>Day 2</a>
+</nav>
+<button class="back-top" type="button" aria-label="Back to top">↑</button>
+
+<div class="modal" id="galleryModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-panel">
+    <div class="modal-hero">
+      <img id="modalImage" src="" alt="">
+      <button class="modal-close" type="button" aria-label="Close details">&times;</button>
+    </div>
+    <div class="modal-body" id="modalContent"></div>
+  </div>
+</div>
+
+<div class="sharebar">
+  <button class="btn primary" onclick="sharePage()">Share itinerary</button>
+  <button class="btn" onclick="window.print()">Save as PDF</button>
+</div>
+
+<script>
+async function sharePage(){
+  const data = {
+    title: "JB Family Getaway • 1–2 Aug 2026",
+    text: "Family itinerary for Johor Bahru, including lunch, dinner, hotel and optional movie.",
+    url: window.location.href
+  };
+  try {
+    if (navigator.share) await navigator.share(data);
+    else {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Page link copied.");
+    }
+  } catch(e) {}
+}
+</script>
+
+
+
+<script>
+document.querySelectorAll(".section-toggle").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const body = btn.closest(".section").querySelector(".section-body");
+    const collapsed = body.classList.toggle("collapsed");
+    btn.textContent = collapsed ? "Show" : "Hide";
+    btn.setAttribute("aria-expanded", String(!collapsed));
+  });
+});
+
+const backTop = document.querySelector(".back-top");
+window.addEventListener("scroll", () => {
+  backTop.classList.toggle("show", window.scrollY > 500);
+});
+backTop.addEventListener("click", () => window.scrollTo({top:0, behavior:"smooth"}));
+
+const navLinks = [...document.querySelectorAll(".mobile-nav a")];
+const observedSections = navLinks
+  .map(link => document.querySelector(link.getAttribute("href")))
+  .filter(Boolean);
+
+const observer = new IntersectionObserver(entries => {
+  const visible = entries
+    .filter(e => e.isIntersecting)
+    .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+  if (!visible) return;
+  navLinks.forEach(link => {
+    link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`);
+  });
+}, {rootMargin:"-35% 0px -55% 0px", threshold:[0.01,0.2,0.5]});
+
+observedSections.forEach(section => observer.observe(section));
+
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener("click", e => {
+    const target = document.querySelector(link.getAttribute("href"));
+    if (!target) return;
+    e.preventDefault();
+    target.scrollIntoView({behavior:"smooth", block:"start"});
+  });
+});
+</script>
+
+<script>
+const galleryDetails = {
+  hotel: {
+    title: "Hotel stay — Novotel Johor Bahru City Centre",
+    image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=86",
+    alt: "Modern city hotel interior",
+    body: `<p>Group A will check in after lunch. Keep the afternoon flexible so Sean’s parents can rest while other family members visit KSL or a nearby café.</p>
+      <div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Novotel+Johor+Bahru+City+Centre">Open hotel map</a></div>`
+  },
+  lunch: {
+    title: "Family lunch — The Mermaid Restaurant",
+    image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=86",
+    alt: "Seafood dining table",
+    body: `<p><strong>Saturday, 1 August • 12:00 PM–1:00 PM</strong></p>
+      <p>Sister’s family joins directly at the restaurant. This is the first common meeting point for all 10 family members.</p>
+      <div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=The+Mermaid+Restaurant+91+Jalan+Beringin+Johor+Bahru">Open restaurant map</a></div>`
+  },
+  dinner: {
+    title: "Dinner — BOTTEGA JB",
+    image: "https://images.unsplash.com/photo-1579684947550-22e945225d9a?auto=format&fit=crop&w=1200&q=86",
+    alt: "Italian restaurant dining",
+    body: `<p><strong>Saturday, 1 August • 6:00 PM • Indoor • Party of 10</strong></p>
+      <p>Reservation under Sean Lim: <strong>#PUZAGBU8N3S</strong>. This is the second common gathering point.</p>
+      <div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=BOTTEGA+JB+8+Jalan+Meranti+Johor+Bahru">Open restaurant map</a></div>`
+  },
+  movie: {
+    title: "Optional movie night — GSC KSL City",
+    image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=86",
+    alt: "Cinema auditorium",
+    body: `<p>The family can proceed to KSL after dinner for a late-night screening of <em>The Odyssey</em>.</p>
+      <p>Exact showtimes for 1 August should be checked closer to the date before tickets are purchased.</p>
+      <div class="actions"><a class="btn primary" target="_blank" href="https://www.gsc.com.my/">Check GSC</a></div>`
+  },
+  cafes: {
+    title: "Popular cafés worth considering",
+    image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=86",
+    alt: "Stylish café interior",
+    body: `
+      <p>These options balance current social-media interest, recent 2025–2026 food-guide coverage, traveller feedback and proximity to Taman Melodies/KSL.</p>
+      <div class="cafe-list">
+        <article class="cafe-rec">
+          <div class="cafe-top"><div class="cafe-name">OTTO Café</div><span class="cafe-badge">Newest trend</span></div>
+          <div class="cafe-why">Opened in late 2025 and repeatedly featured in 2026 café roundups. Aesthetic, Bali-inspired setting with brunch appeal.</div>
+          <div class="cafe-meta">Best for: photos, brunch and a newer venue • Taman Melodies</div>
+          <div class="cafe-actions">
+            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=OTTO+Cafe+Johor+Bahru">Open map</a>
+            <a target="_blank" href="https://www.google.com/search?q=OTTO+Cafe+Johor+Bahru+reviews">Check reviews</a>
+          </div>
+        </article>
+        <article class="cafe-rec">
+          <div class="cafe-top"><div class="cafe-name">Nimmies Pastry Café</div><span class="cafe-badge">Most established</span></div>
+          <div class="cafe-why">Frequently ranked among JB’s best cafés, with recurring praise for croissants, pastries and its spacious bungalow setting.</div>
+          <div class="cafe-meta">Best for: pastries, family seating and a reliable crowd favourite • Taman Melodies</div>
+          <div class="cafe-actions">
+            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Nimmies+Pastry+Cafe+Johor+Bahru">Open map</a>
+            <a target="_blank" href="https://www.google.com/search?q=Nimmies+Pastry+Cafe+reviews">Check reviews</a>
+          </div>
+        </article>
+        <article class="cafe-rec">
+          <div class="cafe-top"><div class="cafe-name">Palates & Bagels by T.A.M</div><span class="cafe-badge">Food-focused</span></div>
+          <div class="cafe-why">Popular for substantial loaded bagels and an aesthetic interior. Recent guides highlight strong ratings and creative savoury choices.</div>
+          <div class="cafe-meta">Best for: a proper meal, bagels and younger family members • Jalan Beringin</div>
+          <div class="cafe-actions">
+            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Palates+and+Bagels+by+TAM+Jalan+Beringin+Johor+Bahru">Open map</a>
+            <a target="_blank" href="https://www.google.com/search?q=Palates+and+Bagels+by+TAM+reviews">Check reviews</a>
+          </div>
+        </article>
+        <article class="cafe-rec">
+          <div class="cafe-top"><div class="cafe-name">Space Café</div><span class="cafe-badge">Closest to KSL</span></div>
+          <div class="cafe-why">A practical specialty-coffee stop near KSL, regularly included in guides for visitors staying around Taman Abad.</div>
+          <div class="cafe-meta">Best for: convenience, coffee and a short stop before or after KSL</div>
+          <div class="cafe-actions">
+            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Space+Cafe+Holiday+Villa+Johor+Bahru">Open map</a>
+            <a target="_blank" href="https://www.google.com/search?q=Space+Cafe+Johor+Bahru+reviews">Check reviews</a>
+          </div>
+        </article>
+        <article class="cafe-rec">
+          <div class="cafe-top"><div class="cafe-name">SHÜÜ Café</div><span class="cafe-badge">Social buzz</span></div>
+          <div class="cafe-why">Appeared in recent social-media lists of notable newer JB cafés, with a clean, photogenic environment near Taman Abad.</div>
+          <div class="cafe-meta">Best for: a trendy stop close to the hotel/KSL zone</div>
+          <div class="cafe-actions">
+            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=SHUU+Cafe+203+Jalan+Wijaya+Johor+Bahru">Open map</a>
+            <a target="_blank" href="https://www.google.com/search?q=SHUU+Cafe+Johor+Bahru+reviews">Check reviews</a>
+          </div>
+        </article>
+      </div>
+      <div class="trend-note"><strong>Planning note:</strong> Popularity and operating hours can change. Check recent reviews and opening hours on the travel date. For this itinerary, OTTO or Nimmies is the strongest destination choice; Space Café is the easiest convenience choice.</div>`
+  },
+
+  durian: {
+    title: "Day 2 durian stop — KSL / Ah Tong area",
+    image: "https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?auto=format&fit=crop&w=1200&q=86",
+    alt: "Fresh durian fruit opened for eating",
+    body: `<p><strong>Recommended nearby option:</strong> the durian stalls around KSL City Mall, including the long-established Ah Tong’s stall area at Jalan Serigala.</p>
+      <p>Visitor reports repeatedly mention the convenience of eating durian opposite or beside KSL. Supply, variety and pricing depend on the day and season, so inspect the fruit and confirm the price by weight before opening.</p>
+      <div class="cafe-list">
+        <article class="cafe-rec">
+          <div class="cafe-top"><div class="cafe-name">Ah Tong’s / KSL Durian Row</div><span class="cafe-badge">Closest option</span></div>
+          <div class="cafe-why">A practical Day 2 stop near the hotel and KSL, without adding a long Grab journey. Commonly associated with Musang King and other seasonal varieties.</div>
+          <div class="cafe-meta">Suggested timing: 10:30 AM–12:00 PM, after check-out • Confirm stock and opening on the day</div>
+          <div class="cafe-actions">
+            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Ah+Tong+Durian+28+Jalan+Serigala+Johor+Bahru">Open map</a>
+            <a target="_blank" href="https://www.google.com/search?q=Ah+Tong+Durian+KSL+Johor+Bahru+reviews">Check reviews</a>
+          </div>
+        </article>
+      </div>
+      <div class="trend-note"><strong>Family consideration:</strong> Choose this only if most of the group enjoys durian. It may be less comfortable for parents in hot weather, and durian normally cannot be brought into hotel rooms or public transport.</div>`
+  },
+  massage: {
+    title: "Day 2 relaxation — foot TCM and reflexology",
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=86",
+    alt: "Relaxing foot massage treatment",
+    body: `<p><strong>Recommended for convenience:</strong> Century Health Care inside KSL City Mall.</p>
+      <p>Its listed services include foot reflexology, meridian massage, body massage, lymphatic massage, gua sha and cupping. The mall location makes it easier for family members who do not want a massage to shop or eat separately.</p>
+      <div class="cafe-list">
+        <article class="cafe-rec">
+          <div class="cafe-top"><div class="cafe-name">Century Health Care — KSL City</div><span class="cafe-badge">Parent-friendly</span></div>
+          <div class="cafe-why">Best logistical fit for Day 2 because it is indoors, near Novotel, and supports different treatment preferences while the rest of the group has independent activities.</div>
+          <div class="cafe-meta">Listed hours: daily 10:00 AM–11:00 PM • Booking ahead is advisable for a group</div>
+          <div class="cafe-actions">
+            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Century+Health+Care+KSL+City+Johor+Bahru">Open map</a>
+            <a target="_blank" href="https://centuryksl369.com/">Services</a>
+          </div>
+        </article>
+        <article class="cafe-rec">
+          <div class="cafe-top"><div class="cafe-name">Eminent Reflexology — KSL/Century Garden</div><span class="cafe-badge">Alternative</span></div>
+          <div class="cafe-why">An established nearby reflexology brand with a branch in the KSL/Century Garden area. Consider it when Century is full or when the group prefers a dedicated reflexology venue.</div>
+          <div class="cafe-meta">Confirm exact branch, availability and treatment pressure before booking</div>
+          <div class="cafe-actions">
+            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query=Eminent+Reflexology+KSL+Century+Garden+Johor+Bahru">Open map</a>
+            <a target="_blank" href="https://www.eminentreflexology.com/">Website</a>
+          </div>
+        </article>
+      </div>
+      <div class="trend-note"><strong>Health consideration:</strong> For elderly guests, request gentle pressure and disclose medical conditions, recent injuries or blood-thinning medication directly to the therapist. Avoid presenting massage as medical treatment.</div>`
+  },
+  jb: {
+    title: "A relaxed Johor Bahru weekend",
+    image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1200&q=86",
+    alt: "City skyline at dusk",
+    body: `<p>The schedule is anchored around lunch and dinner, while keeping travel and afternoon activities flexible for both family groups.</p>
+      <p>Use the interactive map to compare venues and open turn-by-turn directions.</p>`
+  }
+};
+
+const galleryModal = document.getElementById("galleryModal");
+const modalImage = document.getElementById("modalImage");
+const modalContent = document.getElementById("modalContent");
+const modalClose = galleryModal.querySelector(".modal-close");
+let lastFocused = null;
+
+function openGalleryModal(key){
+  const data = galleryDetails[key];
+  if (!data) return;
+  lastFocused = document.activeElement;
+  modalImage.src = data.image;
+  modalImage.alt = data.alt;
+  modalContent.innerHTML = `<h3 id="modalTitle">${data.title}</h3>${data.body}`;
+  galleryModal.classList.add("open");
+  document.body.classList.add("modal-open");
+  modalClose.focus();
+}
+function closeGalleryModal(){
+  galleryModal.classList.remove("open");
+  document.body.classList.remove("modal-open");
+  if (lastFocused) lastFocused.focus();
+}
+document.querySelectorAll(".gallery-card[data-modal]").forEach(card => {
+  card.addEventListener("click", () => openGalleryModal(card.dataset.modal));
+});
+modalClose.addEventListener("click", closeGalleryModal);
+galleryModal.addEventListener("click", e => { if (e.target === galleryModal) closeGalleryModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && galleryModal.classList.contains("open")) closeGalleryModal(); });
+</script>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+ integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+const locations = [
+  {
+    name: "Novotel Johor Bahru City Centre", type: "hotel",
+    lat: 1.48659, lng: 103.76123,
+    note: "Group A hotel and afternoon check-in",
+    query: "Novotel Johor Bahru City Centre"
+  },
+  {
+    name: "The Mermaid Restaurant", type: "meal",
+    lat: 1.4926, lng: 103.7687,
+    note: "Family lunch • 12:00 PM",
+    query: "The Mermaid Restaurant 91 Jalan Beringin Johor Bahru"
+  },
+  {
+    name: "BOTTEGA JB", type: "meal",
+    lat: 1.4911, lng: 103.7697,
+    note: "Family dinner • 6:00 PM",
+    query: "BOTTEGA JB 8 Jalan Meranti Johor Bahru"
+  },
+  {
+    name: "GSC KSL City Mall", type: "movie",
+    lat: 1.4853, lng: 103.7627,
+    note: "Optional late-night movie",
+    query: "GSC KSL City Mall Johor Bahru"
+  },
+  {
+    name: "Nimmies Pastry Café", type: "cafe",
+    lat: 1.4886, lng: 103.7689,
+    note: "Popular pastry and brunch option",
+    query: "Nimmies Pastry Cafe Johor Bahru"
+  },
+  {
+    name: "OTTO Café", type: "cafe",
+    lat: 1.4817, lng: 103.7671,
+    note: "Nearby café option",
+    query: "OTTO Cafe Johor Bahru"
+  },
+
+  {
+    name: "Ah Tong’s / KSL Durian Area", type: "durian",
+    lat: 1.4847, lng: 103.7619,
+    note: "Day 2 seasonal durian option",
+    query: "Ah Tong Durian 28 Jalan Serigala Johor Bahru"
+  },
+  {
+    name: "Century Health Care — KSL", type: "massage",
+    lat: 1.4854, lng: 103.7628,
+    note: "Day 2 foot reflexology and meridian massage",
+    query: "Century Health Care KSL City Johor Bahru"
+  },
+  {
+    name: "JB Sentral", type: "transport",
+    lat: 1.4631, lng: 103.7644,
+    note: "Main transport hub and CIQ connection",
+    query: "JB Sentral Johor Bahru"
+  }
+];
+
+const map = L.map("tripMap", {
+  scrollWheelZoom: false,
+  zoomControl: true,
+  tap: true
+}).setView([1.4829, 103.7647], 14);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom: 19,
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+const iconStyle = {
+  hotel: ["🏨", "#0f766e"],
+  meal: ["🍽️", "#b7791f"],
+  movie: ["🎬", "#7c3aed"],
+  cafe: ["☕", "#92400e"],
+  transport: ["🚌", "#2563eb"],
+  durian: ["🥭", "#65a30d"],
+  massage: ["🦶", "#be185d"]
+};
+
+const markerLayer = L.layerGroup().addTo(map);
+const allMarkers = [];
+
+function markerIcon(type){
+  const [emoji, color] = iconStyle[type];
+  return L.divIcon({
+    className: "",
+    html: `<div style="width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+      background:${color};color:white;border:3px solid white;box-shadow:0 4px 14px rgba(0,0,0,.25);
+      font-size:18px">${emoji}</div>`,
+    iconSize: [36,36],
+    iconAnchor: [18,18],
+    popupAnchor: [0,-18]
+  });
+}
+
+locations.forEach(loc => {
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.query)}`;
+  const marker = L.marker([loc.lat, loc.lng], {icon: markerIcon(loc.type)});
+  marker.bindPopup(`
+    <div class="popup-title">${loc.name}</div>
+    <div class="popup-meta">${loc.note}</div>
+    <a class="popup-link" target="_blank" rel="noopener" href="${mapsUrl}">Open directions</a>
+  `);
+  marker.locationType = loc.type;
+  allMarkers.push(marker);
+  marker.addTo(markerLayer);
+});
+
+const bounds = L.latLngBounds(locations.map(x => [x.lat, x.lng]));
+map.fitBounds(bounds.pad(0.14));
+
+document.querySelectorAll(".map-filter").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".map-filter").forEach(x => x.classList.remove("active"));
+    btn.classList.add("active");
+    const filter = btn.dataset.filter;
+    markerLayer.clearLayers();
+    const visible = allMarkers.filter(m => filter === "all" || m.locationType === filter);
+    visible.forEach(m => m.addTo(markerLayer));
+    if (visible.length) {
+      const visibleBounds = L.latLngBounds(visible.map(m => m.getLatLng()));
+      map.fitBounds(visibleBounds.pad(0.2), {maxZoom: 15});
+    }
+  });
+});
+
+setTimeout(() => map.invalidateSize(), 350);
+</script>
+
+</body>
+</html>
