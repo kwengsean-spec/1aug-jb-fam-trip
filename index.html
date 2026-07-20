@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<title>JB Family Getaway · 1–2 Aug 2026</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--bg:#f4f7f8;--card:#fff;--ink:#172033;--muted:#687386;--teal:#0f766e;--line:#e3e8ed;--shadow:0 10px 30px rgba(20,35,50,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;line-height:1.5}
+.wrap{max-width:900px;margin:auto;padding:16px 16px 110px}.hero{padding:28px 22px;border-radius:24px;color:#fff;background:linear-gradient(135deg,#111827,#0f766e);box-shadow:var(--shadow)}
+.eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;opacity:.8}.hero h1{font-size:clamp(2rem,9vw,3.5rem);line-height:1.02;margin:8px 0 12px}.hero p{margin:0;color:#d8fff8}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.pill{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.16);font-size:.82rem}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}.quick a,.btn{text-decoration:none;text-align:center;padding:11px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:750}
+.btn.primary{background:var(--teal);color:#fff;border-color:var(--teal)}section{scroll-margin-top:12px;margin-top:18px}h2{font-size:1.2rem;margin:0 0 10px}.card{background:var(--card);border:1px solid var(--line);border-radius:19px;padding:17px;box-shadow:0 7px 22px rgba(20,35,50,.05);margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.label{font-size:.74rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}.big{font-size:1.08rem;font-weight:850;margin:3px 0}.muted{color:var(--muted)}
+.timeline{position:relative}.timeline:before{content:"";position:absolute;left:12px;top:8px;bottom:8px;width:2px;background:#d8e3e4}.event{position:relative;padding:0 0 18px 42px}.event:last-child{padding-bottom:0}.event:before{content:"";position:absolute;left:1px;top:3px;width:20px;height:20px;border-radius:50%;background:#dff7f3;border:3px solid var(--teal)}
+.time{font-weight:850;color:var(--teal)}.title{font-weight:850}.tag{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:999px;background:#eef2f7;font-size:.72rem;font-weight:750}.tag.all{background:#dcfce7;color:#166534}.tag.optional{background:#fff7ed;color:#9a3412}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.actions a{flex:1;min-width:120px}.venue p{margin:6px 0}
+#tripMap{height:430px;border-radius:15px}.filters{display:flex;gap:7px;overflow:auto;padding-bottom:10px}.filter{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 11px;font-weight:750}.filter.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+.gallery{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,76%);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}.gallery button{position:relative;height:235px;border:0;padding:0;border-radius:17px;overflow:hidden;scroll-snap-align:start;cursor:pointer;background:#dce5e8}.gallery img{width:100%;height:100%;object-fit:cover}.overlay{position:absolute;inset:auto 0 0;padding:36px 14px 14px;color:#fff;text-align:left;background:linear-gradient(transparent,rgba(5,15,25,.88))}.overlay strong{display:block;font-size:1rem}
+.modal{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;padding:16px;background:rgba(5,12,20,.72);z-index:100}.modal.open{display:flex}.panel{width:min(720px,100%);max-height:88vh;overflow:auto;background:#fff;border-radius:22px}.panel img{width:100%;height:210px;object-fit:cover}.modal-body{padding:18px}.close{position:absolute;right:26px;top:26px;width:40px;height:40px;border:0;border-radius:50%;background:#111827;color:#fff;font-size:22px}
+.rec{border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:10px}.rec strong{display:block}.rec small{color:var(--muted)}
+.bottom{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(94%,620px);display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:7px;border-radius:18px;background:rgba(17,24,39,.94);backdrop-filter:blur(14px);z-index:30}.bottom a{text-decoration:none;color:#dbe4ea;text-align:center;font-size:.68rem;font-weight:750;padding:6px 2px;border-radius:10px}.bottom span{display:block;font-size:1rem}.bottom a.active{background:var(--teal);color:#fff}
+.notice{border-left:5px solid #b7791f;background:#fffaf0}
+@media(max-width:650px){.quick{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.gallery{grid-auto-columns:87%}#tripMap{height:380px}.wrap{padding-bottom:105px}}
+@media(min-width:651px){.bottom{display:none}.modal{align-items:center}.panel{border-radius:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">Family Trip · Johor Bahru</div>
+<h1>JB Weekend<br>Getaway</h1>
+<p>A flexible family itinerary with shared meal gatherings and optional independent activities.</p>
+<div class="pills"><span class="pill">1–2 Aug 2026</span><span class="pill">10 people at dinner</span><span class="pill">Hotel: Novotel JB City Centre</span></div>
+</header>
+
+<nav class="quick">
+<a href="#day1">Day 1</a><a href="#venues">Venues</a><a href="#map">Map</a><a href="#day2">Day 2</a>
+</nav>
+
+<section id="groups">
+<h2>Family groups</h2>
+<div class="grid2">
+<div class="card"><div class="label">Group A · Staying at Novotel</div><div class="big">Sean’s family + parents</div><div class="muted">6 people: Sean’s family of four plus Sean’s parents.</div></div>
+<div class="card"><div class="label">Group B · Joining directly</div><div class="big">Sister’s family</div><div class="muted">4 people, with freedom to travel and spend the afternoon independently.</div></div>
+</div>
+</section>
+
+<section id="day1">
+<h2>Saturday, 1 August</h2>
+<div class="card timeline">
+<div class="event"><div class="time">Morning</div><div class="title">Travel from Singapore via Woodlands</div><div class="muted">All groups may travel together or separately. Allow extra time for Saturday immigration queues.</div><span class="tag optional">Flexible arrival</span></div>
+<div class="event"><div class="time">12:00 PM–1:00 PM</div><div class="title">Family lunch · The Mermaid Restaurant</div><div class="muted">Sister’s family joins directly at the venue.</div><span class="tag all">All 10 people</span></div>
+<div class="event"><div class="time">After lunch</div><div class="title">Flexible activities</div><div class="muted">Group A checks in at Novotel with Sean’s parents. Group B may shop, visit cafés or follow its own plans.</div></div>
+<div class="event"><div class="time">6:00 PM</div><div class="title">Family dinner · BOTTEGA JB</div><div class="muted">Indoor table for 10, reserved under Sean Lim.</div><span class="tag all">Main gathering</span></div>
+<div class="event"><div class="time">After dinner</div><div class="title">Optional movie · GSC KSL City</div><div class="muted">Check the confirmed 1 August screening of <em>The Odyssey</em> nearer the date.</div><span class="tag optional">Optional</span></div>
+</div>
+</section>
+
+<section id="venues">
+<h2>Key venues</h2>
+<div class="grid2">
+<div class="card venue"><div class="label">Lunch</div><div class="big">The Mermaid Restaurant</div><p>91 & 93 Jalan Beringin, Taman Melodies, 80250 Johor Bahru.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=The+Mermaid+Restaurant+91+Jalan+Beringin+Johor+Bahru">Map</a><a class="btn" target="_blank" href="https://www.themermaid.com.my/">Website</a></div></div>
+<div class="card venue"><div class="label">Dinner</div><div class="big">BOTTEGA JB</div><p>8 Jalan Meranti, Taman Melodies, 80250 Johor Bahru.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=BOTTEGA+JB+8+Jalan+Meranti+Johor+Bahru">Map</a><a class="btn" target="_blank" href="https://jb.bottega.my/">Website</a></div></div>
+<div class="card venue"><div class="label">Hotel</div><div class="big">Novotel Johor Bahru City Centre</div><p>Jalan Pelanduk, Taman Abad, Johor Bahru.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Novotel+Johor+Bahru+City+Centre">Map</a></div></div>
+<div class="card venue"><div class="label">Movie</div><div class="big">GSC KSL City</div><p>Level 2, KSL City Mall, 33 Jalan Seladang.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=GSC+KSL+City+Mall">Map</a><a class="btn" target="_blank" href="https://www.gsc.com.my/">Showtimes</a></div></div>
+</div>
+</section>
+
+<section id="map">
+<h2>Interactive map</h2>
+<div class="card">
+<div class="filters">
+<button class="filter active" data-type="all">All</button><button class="filter" data-type="meal">Meals</button><button class="filter" data-type="hotel">Hotel</button><button class="filter" data-type="movie">Movie</button><button class="filter" data-type="cafe">Cafés</button><button class="filter" data-type="day2">Day 2</button><button class="filter" data-type="transport">JB Sentral</button>
+</div>
+<div id="tripMap"></div>
+<p class="muted">Tap a marker for details. Use the Google Maps button for final navigation.</p>
+</div>
+</section>
+
+<section id="ideas">
+<h2>Trip ideas</h2>
+<div class="card">
+<div class="gallery">
+<button data-modal="cafes"><img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=82" alt="Cafe interior"><span class="overlay"><strong>Popular cafés</strong>Tap for recommendations</span></button>
+<button data-modal="durian"><img src="https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?auto=format&fit=crop&w=1000&q=82" alt="Durian"><span class="overlay"><strong>Durian stop</strong>Day 2 near KSL</span></button>
+<button data-modal="massage"><img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1000&q=82" alt="Foot massage"><span class="overlay"><strong>Foot reflexology</strong>Day 2 relaxation</span></button>
+<button data-modal="movie"><img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1000&q=82" alt="Cinema"><span class="overlay"><strong>Movie night</strong>Optional after dinner</span></button>
+</div>
+<p class="muted">Swipe horizontally on mobile, then tap a card.</p>
+</div>
+</section>
+
+<section id="day2">
+<h2>Sunday, 2 August</h2>
+<div class="card timeline">
+<div class="event"><div class="time">Morning</div><div class="title">Breakfast and relaxed start</div><div class="muted">Group A has breakfast at Novotel.</div></div>
+<div class="event"><div class="time">After check-out</div><div class="title">Choose one flexible activity</div><div class="muted">Café, durian near KSL, foot reflexology, shopping or an early return to Singapore.</div></div>
+<div class="event"><div class="time">Afternoon</div><div class="title">Return to Singapore</div><div class="muted">Each family may decide its own return timing.</div></div>
+</div>
+</section>
+
+<div class="card notice"><strong>Important:</strong> Confirm cinema times, café opening hours and Day 2 availability nearer the travel date.</div>
+</div>
+
+<nav class="bottom">
+<a href="#day1"><span>🗓️</span>Day 1</a><a href="#venues"><span>📍</span>Venues</a><a href="#map"><span>🗺️</span>Map</a><a href="#ideas"><span>✨</span>Ideas</a><a href="#day2"><span>☀️</span>Day 2</a>
+</nav>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+<div class="panel">
+<button class="close" type="button" aria-label="Close">×</button>
+<img id="modalImg" alt="">
+<div class="modal-body" id="modalBody"></div>
+</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const places=[
+{name:"The Mermaid Restaurant",type:"meal",lat:1.4926,lng:103.7687,note:"Lunch · 12:00 PM",q:"The Mermaid Restaurant 91 Jalan Beringin Johor Bahru"},
+{name:"BOTTEGA JB",type:"meal",lat:1.4911,lng:103.7697,note:"Dinner · 6:00 PM",q:"BOTTEGA JB 8 Jalan Meranti Johor Bahru"},
+{name:"Novotel JB City Centre",type:"hotel",lat:1.4866,lng:103.7612,note:"Group A hotel",q:"Novotel Johor Bahru City Centre"},
+{name:"GSC KSL City",type:"movie",lat:1.4853,lng:103.7627,note:"Optional movie",q:"GSC KSL City Mall"},
+{name:"Nimmies Pastry Café",type:"cafe",lat:1.4886,lng:103.7689,note:"Popular pastry café",q:"Nimmies Pastry Cafe Johor Bahru"},
+{name:"OTTO Café",type:"cafe",lat:1.4817,lng:103.7671,note:"Popular brunch café",q:"OTTO Cafe Johor Bahru"},
+{name:"Ah Tong / KSL Durian",type:"day2",lat:1.4847,lng:103.7619,note:"Day 2 durian option",q:"Ah Tong Durian Jalan Serigala Johor Bahru"},
+{name:"Century Health Care KSL",type:"day2",lat:1.4854,lng:103.7628,note:"Foot reflexology option",q:"Century Health Care KSL City Johor Bahru"},
+{name:"JB Sentral",type:"transport",lat:1.4631,lng:103.7644,note:"Transport hub",q:"JB Sentral Johor Bahru"}];
+
+const map=L.map("tripMap",{scrollWheelZoom:false}).setView([1.483,103.765],14);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap contributors"}).addTo(map);
+const layer=L.layerGroup().addTo(map);const markers=[];
+places.forEach(p=>{const m=L.marker([p.lat,p.lng]);m.kind=p.type;m.bindPopup(`<strong>${p.name}</strong><br>${p.note}<br><br><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.q)}">Open Google Maps</a>`);markers.push(m);m.addTo(layer)});
+map.fitBounds(L.latLngBounds(places.map(p=>[p.lat,p.lng])).pad(.12));
+document.querySelectorAll(".filter").forEach(b=>b.onclick=()=>{document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));b.classList.add("active");layer.clearLayers();const list=markers.filter(m=>b.dataset.type==="all"||m.kind===b.dataset.type);list.forEach(m=>m.addTo(layer));if(list.length)map.fitBounds(L.latLngBounds(list.map(m=>m.getLatLng())).pad(.2),{maxZoom:15})});
+
+const detail={
+cafes:{img:"https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=86",title:"Popular cafés nearby",body:`
+<div class="rec"><strong>OTTO Café</strong><small>Newer, photogenic brunch option in Taman Melodies.</small><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=OTTO+Cafe+Johor+Bahru">Map</a></div></div>
+<div class="rec"><strong>Nimmies Pastry Café</strong><small>Established favourite for pastries, brunch and family seating.</small><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Nimmies+Pastry+Cafe+Johor+Bahru">Map</a></div></div>
+<div class="rec"><strong>Space Café</strong><small>Convenient specialty coffee option near KSL.</small><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Space+Cafe+Johor+Bahru">Map</a></div></div>`},
+durian:{img:"https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?auto=format&fit=crop&w=1200&q=86",title:"Durian near KSL",body:`<p>Consider the durian stalls around Jalan Serigala opposite KSL. Confirm daily stock, variety and price before opening the fruit.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Ah+Tong+Durian+Jalan+Serigala+Johor+Bahru">Open map</a></div>`},
+massage:{img:"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=86",title:"Foot reflexology",body:`<p>Century Health Care inside KSL is convenient for parents while other family members shop or eat nearby. Request gentle pressure where appropriate.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Century+Health+Care+KSL+City+Johor+Bahru">Open map</a></div>`},
+movie:{img:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=86",title:"Optional movie night",body:`<p>Check the official GSC listing closer to 1 August before purchasing tickets.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.gsc.com.my/">Check GSC</a></div>`}};
+const modal=document.getElementById("modal"),modalImg=document.getElementById("modalImg"),modalBody=document.getElementById("modalBody");
+document.querySelectorAll("[data-modal]").forEach(b=>b.onclick=()=>{const d=detail[b.dataset.modal];modalImg.src=d.img;modalBody.innerHTML=`<h2>${d.title}</h2>${d.body}`;modal.classList.add("open")});
+document.querySelector(".close").onclick=()=>modal.classList.remove("open");modal.onclick=e=>{if(e.target===modal)modal.classList.remove("open")};document.addEventListener("keydown",e=>{if(e.key==="Escape")modal.classList.remove("open")});
+const nav=[...document.querySelectorAll(".bottom a")];const obs=new IntersectionObserver(es=>{const v=es.filter(e=>e.isIntersecting)[0];if(v)nav.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+v.target.id))},{rootMargin:"-35% 0px -55% 0px"});nav.forEach(a=>{const s=document.querySelector(a.getAttribute("href"));if(s)obs.observe(s)});
+</script>
+</body>
+</html>
