@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0f766e">
 <title>JB Family Getaway · 1–2 Aug 2026</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B4%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root{--bg:#f4f7f8;--card:#fff;--ink:#172033;--muted:#687386;--teal:#0f766e;--line:#e3e8ed;--shadow:0 10px 30px rgba(20,35,50,.08)}
@@ -12,8 +13,8 @@
 .wrap{max-width:900px;margin:auto;padding:16px 16px 110px}.hero{padding:28px 22px;border-radius:24px;color:#fff;background:linear-gradient(135deg,#111827,#0f766e);box-shadow:var(--shadow)}
 .eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;opacity:.8}.hero h1{font-size:clamp(2rem,9vw,3.5rem);line-height:1.02;margin:8px 0 12px}.hero p{margin:0;color:#d8fff8}
 .pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.pill{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.16);font-size:.82rem}
-.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}.quick a,.btn{text-decoration:none;text-align:center;padding:11px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:750}
-.btn.primary{background:var(--teal);color:#fff;border-color:var(--teal)}section{scroll-margin-top:12px;margin-top:18px}h2{font-size:1.2rem;margin:0 0 10px}.card{background:var(--card);border:1px solid var(--line);border-radius:19px;padding:17px;box-shadow:0 7px 22px rgba(20,35,50,.05);margin-bottom:12px}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.quick a,.btn{text-decoration:none;text-align:center;padding:11px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:750}
+.btn.primary{background:var(--teal);color:#fff;border-color:var(--teal)}.btn.small{display:inline-block;padding:6px 10px;font-size:.78rem;margin-top:8px}.btn.ghost{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.35)}section{scroll-margin-top:12px;margin-top:18px}h2{font-size:1.2rem;margin:0 0 10px}.card{background:var(--card);border:1px solid var(--line);border-radius:19px;padding:17px;box-shadow:0 7px 22px rgba(20,35,50,.05);margin-bottom:12px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.label{font-size:.74rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}.big{font-size:1.08rem;font-weight:850;margin:3px 0}.muted{color:var(--muted)}
 .timeline{position:relative}.timeline:before{content:"";position:absolute;left:12px;top:8px;bottom:8px;width:2px;background:#d8e3e4}.event{position:relative;padding:0 0 18px 42px}.event:last-child{padding-bottom:0}.event:before{content:"";position:absolute;left:1px;top:3px;width:20px;height:20px;border-radius:50%;background:#dff7f3;border:3px solid var(--teal)}
 .time{font-weight:850;color:var(--teal)}.title{font-weight:850}.tag{display:inline-block;margin-top:6px;padding:3px 8px;border-radius:999px;background:#eef2f7;font-size:.72rem;font-weight:750}.tag.all{background:#dcfce7;color:#166534}.tag.optional{background:#fff7ed;color:#9a3412}
@@ -24,21 +25,27 @@
 .rec{border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:10px}.rec strong{display:block}.rec small{color:var(--muted)}
 .bottom{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);width:min(94%,620px);display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:7px;border-radius:18px;background:rgba(17,24,39,.94);backdrop-filter:blur(14px);z-index:30}.bottom a{text-decoration:none;color:#dbe4ea;text-align:center;font-size:.68rem;font-weight:750;padding:6px 2px;border-radius:10px}.bottom span{display:block;font-size:1rem}.bottom a.active{background:var(--teal);color:#fff}
 .notice{border-left:5px solid #b7791f;background:#fffaf0}
+.checklist{list-style:none;margin:0;padding:0;display:grid;gap:8px}.checklist li{display:flex;gap:9px;align-items:flex-start}.checklist input{margin-top:3px;width:17px;height:17px;flex-shrink:0}
+.contact-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}.contact-row:last-child{border-bottom:0}.contact-row .who{font-weight:750}.contact-row .num{color:var(--muted)}
+.skip-link{position:absolute;left:-999px;top:auto;background:#111827;color:#fff;padding:10px 16px;border-radius:10px;z-index:200}.skip-link:focus{left:16px;top:16px}
 @media(max-width:650px){.quick{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.gallery{grid-auto-columns:87%}#tripMap{height:380px}.wrap{padding-bottom:105px}}
 @media(min-width:651px){.bottom{display:none}.modal{align-items:center}.panel{border-radius:22px}}
+@media print{.bottom,.quick,.filters,.modal,.gallery,.skip-link,#tripMap{display:none!important}.hero{background:#0f766e!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.wrap{padding-bottom:20px;max-width:100%}.card{box-shadow:none;break-inside:avoid}}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#day1">Skip to itinerary</a>
 <div class="wrap">
 <header class="hero">
 <div class="eyebrow">Family Trip · Johor Bahru</div>
 <h1>JB Weekend<br>Getaway</h1>
 <p>A flexible family itinerary with shared meal gatherings and optional independent activities.</p>
 <div class="pills"><span class="pill">1–2 Aug 2026</span><span class="pill">10 people at dinner</span><span class="pill">Hotel: Novotel JB City Centre</span></div>
+<button id="shareBtn" type="button" class="btn ghost small" style="margin-top:14px">🔗 Share itinerary</button>
 </header>
 
 <nav class="quick">
-<a href="#day1">Day 1</a><a href="#venues">Venues</a><a href="#map">Map</a><a href="#day2">Day 2</a>
+<a href="#day1">Day 1</a><a href="#venues">Venues</a><a href="#map">Map</a><a href="#ideas">Ideas</a><a href="#info">Trip info</a><a href="#day2">Day 2</a>
 </nav>
 
 <section id="groups">
@@ -53,9 +60,9 @@
 <h2>Saturday, 1 August</h2>
 <div class="card timeline">
 <div class="event"><div class="time">Morning</div><div class="title">Travel from Singapore via Woodlands</div><div class="muted">All groups may travel together or separately. Allow extra time for Saturday immigration queues.</div><span class="tag optional">Flexible arrival</span></div>
-<div class="event"><div class="time">12:00 PM–1:00 PM</div><div class="title">Family lunch · The Mermaid Restaurant</div><div class="muted">Sister’s family joins directly at the venue.</div><span class="tag all">All 10 people</span></div>
+<div class="event"><div class="time">12:00 PM–1:00 PM</div><div class="title">Family lunch · The Mermaid Restaurant</div><div class="muted">Sister’s family joins directly at the venue.</div><span class="tag all">All 10 people</span><br><button class="btn small" type="button" data-ical data-title="Family lunch - The Mermaid Restaurant" data-start="20260801T120000" data-end="20260801T130000" data-loc="The Mermaid Restaurant, 91 &amp; 93 Jalan Beringin, Taman Melodies, 80250 Johor Bahru">📅 Add to calendar</button></div>
 <div class="event"><div class="time">After lunch</div><div class="title">Flexible activities</div><div class="muted">Group A checks in at Novotel with Sean’s parents. Group B may shop, visit cafés or follow its own plans.</div></div>
-<div class="event"><div class="time">6:00 PM</div><div class="title">Family dinner · BOTTEGA JB</div><div class="muted">Indoor table for 10, reserved under Sean Lim.</div><span class="tag all">Main gathering</span></div>
+<div class="event"><div class="time">6:00 PM</div><div class="title">Family dinner · BOTTEGA JB</div><div class="muted">Indoor table for 10, reserved under Sean Lim.</div><span class="tag all">Main gathering</span><br><button class="btn small" type="button" data-ical data-title="Family dinner - BOTTEGA JB" data-start="20260801T180000" data-end="20260801T200000" data-loc="BOTTEGA JB, 8 Jalan Meranti, Taman Melodies, 80250 Johor Bahru">📅 Add to calendar</button></div>
 <div class="event"><div class="time">After dinner</div><div class="title">Optional movie · GSC KSL City</div><div class="muted">Check the confirmed 1 August screening of <em>The Odyssey</em> nearer the date.</div><span class="tag optional">Optional</span></div>
 </div>
 </section>
@@ -103,7 +110,38 @@
 </div>
 </section>
 
+<section id="info">
+<h2>Trip info</h2>
+<div class="grid2">
+<div class="card">
+<div class="label">Contacts</div>
+<div class="contact-row"><span class="who">Sean (Group A)</span><span class="num">add number</span></div>
+<div class="contact-row"><span class="who">Sister (Group B)</span><span class="num">add number</span></div>
+<div class="contact-row"><span class="who">Novotel front desk</span><span class="num">add number</span></div>
+<p class="muted" style="margin:8px 0 0;font-size:.8rem">Fill in before sending — handy if anyone gets separated or delayed at immigration.</p>
+</div>
+<div class="card">
+<div class="label">Good to know</div>
+<p class="muted" style="margin:6px 0">🌦️ Tropical weather, roughly 26–33°C with possible showers — pack a light rain jacket or umbrella.</p>
+<p class="muted" style="margin:6px 0">💳 Currency is the Malaysian Ringgit (MYR). Cards work in malls/restaurants; keep small cash for hawker stalls and durian.</p>
+<p class="muted" style="margin:6px 0">🛂 Bring passports for everyone — Saturday queues at the Woodlands/JB checkpoints can be long, so budget extra time.</p>
+<p class="muted" style="margin:0">📱 Grab is the easiest way to get around JB if the group splits up.</p>
+</div>
+</div>
+<div class="card">
+<div class="label">Packing checklist</div>
+<ul class="checklist">
+<li><input type="checkbox" id="pk1"><label for="pk1">Passport &amp; travel documents</label></li>
+<li><input type="checkbox" id="pk2"><label for="pk2">Comfortable walking shoes</label></li>
+<li><input type="checkbox" id="pk3"><label for="pk3">Light rain jacket or umbrella</label></li>
+<li><input type="checkbox" id="pk4"><label for="pk4">MYR cash (small notes) + a card</label></li>
+<li><input type="checkbox" id="pk5"><label for="pk5">Phone charger / power bank</label></li>
+<li><input type="checkbox" id="pk6"><label for="pk6">Any regular medication</label></li>
+</ul>
+</div>
 <div class="card notice"><strong>Important:</strong> Confirm cinema times, café opening hours and Day 2 availability nearer the travel date.</div>
+<p class="muted" style="font-size:.8rem;margin-top:10px">Last updated 20 Jul 2026. If plans change, resend this page's link to everyone.</p>
+</section>
 </div>
 
 <nav class="bottom">
@@ -146,10 +184,30 @@ cafes:{img:"https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=fo
 durian:{img:"https://images.unsplash.com/photo-1606914501449-5a96b6ce24ca?auto=format&fit=crop&w=1200&q=86",title:"Durian near KSL",body:`<p>Consider the durian stalls around Jalan Serigala opposite KSL. Confirm daily stock, variety and price before opening the fruit.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Ah+Tong+Durian+Jalan+Serigala+Johor+Bahru">Open map</a></div>`},
 massage:{img:"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1200&q=86",title:"Foot reflexology",body:`<p>Century Health Care inside KSL is convenient for parents while other family members shop or eat nearby. Request gentle pressure where appropriate.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Century+Health+Care+KSL+City+Johor+Bahru">Open map</a></div>`},
 movie:{img:"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=86",title:"Optional movie night",body:`<p>Check the official GSC listing closer to 1 August before purchasing tickets.</p><div class="actions"><a class="btn primary" target="_blank" href="https://www.gsc.com.my/">Check GSC</a></div>`}};
-const modal=document.getElementById("modal"),modalImg=document.getElementById("modalImg"),modalBody=document.getElementById("modalBody");
-document.querySelectorAll("[data-modal]").forEach(b=>b.onclick=()=>{const d=detail[b.dataset.modal];modalImg.src=d.img;modalBody.innerHTML=`<h2>${d.title}</h2>${d.body}`;modal.classList.add("open")});
-document.querySelector(".close").onclick=()=>modal.classList.remove("open");modal.onclick=e=>{if(e.target===modal)modal.classList.remove("open")};document.addEventListener("keydown",e=>{if(e.key==="Escape")modal.classList.remove("open")});
+const modal=document.getElementById("modal"),modalImg=document.getElementById("modalImg"),modalBody=document.getElementById("modalBody"),closeBtn=document.querySelector(".close");
+let lastFocused=null;
+function openModal(d){lastFocused=document.activeElement;modalImg.src=d.img;modalImg.alt=d.title;modalBody.innerHTML=`<h2>${d.title}</h2>${d.body}`;modal.classList.add("open");closeBtn.focus()}
+function closeModal(){modal.classList.remove("open");if(lastFocused)lastFocused.focus()}
+document.querySelectorAll("[data-modal]").forEach(b=>b.onclick=()=>openModal(detail[b.dataset.modal]));
+closeBtn.onclick=closeModal;modal.onclick=e=>{if(e.target===modal)closeModal()};document.addEventListener("keydown",e=>{if(e.key==="Escape"&&modal.classList.contains("open"))closeModal()});
 const nav=[...document.querySelectorAll(".bottom a")];const obs=new IntersectionObserver(es=>{const v=es.filter(e=>e.isIntersecting)[0];if(v)nav.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+v.target.id))},{rootMargin:"-35% 0px -55% 0px"});nav.forEach(a=>{const s=document.querySelector(a.getAttribute("href"));if(s)obs.observe(s)});
+
+document.querySelectorAll("[data-ical]").forEach(b=>b.addEventListener("click",()=>{
+const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//JB Family Trip//EN","BEGIN:VEVENT",
+`SUMMARY:${b.dataset.title}`,`DTSTART:${b.dataset.start}`,`DTEND:${b.dataset.end}`,
+`LOCATION:${b.dataset.loc}`,"END:VEVENT","END:VCALENDAR"].join("\r\n");
+const blob=new Blob([ics],{type:"text/calendar"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement("a");a.href=url;a.download=b.dataset.title.replace(/[^a-z0-9]+/gi,"_")+".ics";document.body.appendChild(a);a.click();a.remove();
+URL.revokeObjectURL(url);
+}));
+
+const shareBtn=document.getElementById("shareBtn");
+shareBtn.addEventListener("click",async()=>{
+const data={title:document.title,text:"Our JB family trip itinerary",url:location.href};
+if(navigator.share){try{await navigator.share(data);return}catch(e){return}}
+try{await navigator.clipboard.writeText(location.href);const old=shareBtn.textContent;shareBtn.textContent="Link copied!";setTimeout(()=>shareBtn.textContent=old,1800)}catch(e){alert("Copy this page's link to share it:\n"+location.href)}
+});
 </script>
 </body>
 </html>
