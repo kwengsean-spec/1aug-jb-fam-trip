@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>JB Family Getaway • 1–2 Aug 2026</title>
+  <style>
+    :root{
+      --bg:#f4f5f7; --card:#ffffff; --ink:#172033; --muted:#687387;
+      --accent:#0f766e; --accent2:#14b8a6; --gold:#b7791f;
+      --line:#e6e9ee; --shadow:0 12px 34px rgba(20,30,50,.09);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,
+      "Segoe UI",Roboto,Arial,sans-serif; color:var(--ink); background:
+      radial-gradient(circle at top right,#ccfbf1 0,transparent 25rem),var(--bg);
+      line-height:1.5;
+    }
+    .wrap{max-width:860px;margin:auto;padding:18px 16px 70px}
+    .hero{
+      color:white; padding:30px 24px; border-radius:24px;
+      background:linear-gradient(135deg,#111827,#0f766e);
+      box-shadow:var(--shadow); position:relative; overflow:hidden;
+    }
+    .hero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;
+      background:rgba(255,255,255,.08);right:-70px;top:-90px}
+    .eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;opacity:.78}
+    h1{font-size:clamp(2rem,8vw,3.5rem);line-height:1.02;margin:8px 0 12px}
+    .hero p{margin:0;max-width:590px;color:#d9fffa}
+    .pills{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+    .pill{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;padding:7px 11px;font-size:.85rem}
+    .quicknav{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:15px 0}
+    .quicknav a,.btn{
+      text-decoration:none;text-align:center;border-radius:13px;padding:12px 9px;
+      background:white;color:var(--ink);font-weight:700;border:1px solid var(--line)
+    }
+    .section{margin-top:18px}
+    .section h2{font-size:1.2rem;margin:0 0 10px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+      box-shadow:0 7px 24px rgba(20,30,50,.05);padding:18px;margin-bottom:12px}
+    .groupgrid,.venuegrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .group{border-left:4px solid var(--accent2)}
+    .group.b{border-left-color:#f59e0b}
+    .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+    .big{font-size:1.1rem;font-weight:800;margin:2px 0 5px}
+    .muted{color:var(--muted)}
+    .timeline{position:relative;margin-left:5px}
+    .timeline:before{content:"";position:absolute;left:14px;top:10px;bottom:10px;width:2px;background:#d8e2e2}
+    .item{position:relative;padding:0 0 19px 48px}
+    .item:last-child{padding-bottom:2px}
+    .dot{position:absolute;left:2px;top:2px;width:26px;height:26px;border-radius:50%;
+      background:#dff8f4;border:6px solid white;box-shadow:0 0 0 2px var(--accent)}
+    .time{font-weight:800;color:var(--accent)}
+    .title{font-weight:800;font-size:1.03rem}
+    .tag{display:inline-block;font-size:.72rem;font-weight:750;padding:3px 8px;border-radius:999px;
+      background:#eef2f7;color:#465166;margin-top:6px}
+    .tag.all{background:#dcfce7;color:#166534}.tag.optional{background:#fff7ed;color:#9a3412}
+    .venue h3{margin:2px 0 6px;font-size:1.12rem}
+    .venue p{margin:6px 0}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+    .actions a{flex:1;min-width:125px}
+    .primary{background:var(--accent)!important;color:white!important;border-color:var(--accent)!important}
+    .notice{border-left:5px solid var(--gold);background:#fffaf0}
+    .footer{text-align:center;color:var(--muted);font-size:.84rem;padding:18px}
+    .sharebar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.93);
+      backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:9px 16px calc(9px + env(safe-area-inset-bottom));
+      display:flex;gap:9px;justify-content:center;z-index:5}
+    .sharebar button,.sharebar a{max-width:250px;flex:1;border:none;cursor:pointer;font:inherit}
+    @media(max-width:650px){
+      .quicknav{grid-template-columns:1fr 1fr}
+      .groupgrid,.venuegrid{grid-template-columns:1fr}
+      .hero{padding:26px 20px}
+    }
+    @media print{
+      .sharebar,.quicknav{display:none}.wrap{padding:0}.card,.hero{box-shadow:none}
+      body{background:white}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Family Trip • Johor Bahru</div>
+    <h1>JB Weekend<br>Getaway</h1>
+    <p>A flexible family itinerary with two main gathering points, while allowing each group to enjoy its own activities.</p>
+    <div class="pills">
+      <span class="pill">Sat–Sun • 1–2 Aug 2026</span>
+      <span class="pill">10 people at dinner</span>
+      <span class="pill">Hotel: Novotel JB City Centre</span>
+    </div>
+  </header>
+
+  <nav class="quicknav">
+    <a href="#groups">Groups</a>
+    <a href="#saturday">Saturday</a>
+    <a href="#venues">Venues</a>
+    <a href="#sunday">Sunday</a>
+  </nav>
+
+  <section class="section" id="groups">
+    <h2>Who is joining</h2>
+    <div class="groupgrid">
+      <div class="card group">
+        <div class="label">Group A • Staying at Novotel</div>
+        <div class="big">Sean’s family + parents</div>
+        <div class="muted">6 people — Sean’s family of four, plus Sean’s parents.</div>
+      </div>
+      <div class="card group b">
+        <div class="label">Group B • Joining directly</div>
+        <div class="big">Sister’s family</div>
+        <div class="muted">4 people — free to arrange their own travel and afternoon activities.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="saturday">
+    <h2>Saturday, 1 August</h2>
+    <div class="card">
+      <div class="timeline">
+        <div class="item"><span class="dot"></span>
+          <div class="time">Morning</div>
+          <div class="title">Travel from Singapore via Woodlands</div>
+          <div class="muted">All groups may travel together or make their own separate travel arrangements. Allow extra buffer for Saturday immigration queues.</div>
+          <span class="tag optional">Flexible arrival</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">12:00 PM–1:00 PM</div>
+          <div class="title">Family lunch at The Mermaid Restaurant</div>
+          <div class="muted">Sister’s family joins directly at the restaurant.</div>
+          <span class="tag all">Main gathering • All 10</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">After lunch</div>
+          <div class="title">Split into flexible groups</div>
+          <div class="muted">Sean accompanies his family and parents to Novotel for check-in. Sister’s family may shop, café-hop, rest, or follow its own plan.</div>
+          <span class="tag optional">Independent activities</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">Around 1:30 PM onward</div>
+          <div class="title">Novotel check-in and rest</div>
+          <div class="muted">Group A can relax at the hotel or explore KSL and nearby cafés without a fixed programme.</div>
+          <span class="tag">Group A</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">6:00 PM</div>
+          <div class="title">Dinner at BOTTEGA JB</div>
+          <div class="muted">Indoor table reserved under Sean Lim. Reservation: <strong>#PUZAGBU8N3S</strong>.</div>
+          <span class="tag all">Main gathering • Party of 10</span>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">After dinner</div>
+          <div class="title">The Odyssey at GSC KSL City</div>
+          <div class="muted">Target a late-night screening. Exact 1 August showtime should be reconfirmed through GSC nearer the date.</div>
+          <span class="tag optional">Optional</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="venues">
+    <h2>Key venues</h2>
+    <div class="venuegrid">
+      <article class="card venue">
+        <div class="label">Lunch • 12:00 PM</div>
+        <h3>The Mermaid Restaurant</h3>
+        <p>91 & 93, Jalan Beringin, Taman Melodies, 80250 Johor Bahru, Johor, Malaysia</p>
+        <p class="muted">Seafood restaurant • WhatsApp: +60 13-338 8118</p>
+        <div class="actions">
+          <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=The+Mermaid+Restaurant+91+Jalan+Beringin+Johor+Bahru">Open Map</a>
+          <a class="btn" target="_blank" href="https://www.themermaid.com.my/">Website</a>
+        </div>
+      </article>
+
+      <article class="card venue">
+        <div class="label">Dinner • 6:00 PM</div>
+        <h3>BOTTEGA JB</h3>
+        <p>8, Jalan Meranti, Taman Melodies, 80250 Johor Bahru, Johor, Malaysia</p>
+        <p class="muted">Indoor • Party of 10 • Reservation #PUZAGBU8N3S</p>
+        <div class="actions">
+          <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Bottega+JB+8+Jalan+Meranti+Johor+Bahru">Open Map</a>
+          <a class="btn" target="_blank" href="https://jb.bottega.my/">Website</a>
+        </div>
+      </article>
+
+      <article class="card venue">
+        <div class="label">Hotel • Group A</div>
+        <h3>Novotel Johor Bahru City Centre</h3>
+        <p>Jalan Pelanduk, Taman Abad, 80250 Johor Bahru, Johor, Malaysia</p>
+        <div class="actions">
+          <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Novotel+Johor+Bahru+City+Centre">Open Map</a>
+          <a class="btn" target="_blank" href="https://all.accor.com/hotel/B585/index.en.shtml">Hotel Website</a>
+        </div>
+      </article>
+
+      <article class="card venue">
+        <div class="label">Optional movie • Late night</div>
+        <h3>GSC KSL City Mall</h3>
+        <p>Level 2, KSL City Mall, 33 Jalan Seladang, 80250 Johor Bahru, Johor, Malaysia</p>
+        <div class="actions">
+          <a class="btn primary" target="_blank" href="https://www.google.com/maps/search/?api=1&query=GSC+KSL+City+Mall">Open Map</a>
+          <a class="btn" target="_blank" href="https://www.gsc.com.my/">Check Showtimes</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="sunday">
+    <h2>Sunday, 2 August</h2>
+    <div class="card">
+      <div class="timeline">
+        <div class="item"><span class="dot"></span>
+          <div class="time">Morning</div>
+          <div class="title">Breakfast and relaxed start</div>
+          <div class="muted">Group A has breakfast at Novotel. No common programme is required.</div>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">Check-out</div>
+          <div class="title">Confirm hotel check-out time</div>
+          <div class="muted">Leave luggage with the hotel if the group plans to visit a café or shop before returning to Singapore.</div>
+        </div>
+        <div class="item"><span class="dot"></span>
+          <div class="time">Late morning / afternoon</div>
+          <div class="title">Own activities and return to Singapore</div>
+          <div class="muted">Each family may decide its own café, shopping and return timing.</div>
+          <span class="tag optional">Fully flexible</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="card notice">
+    <strong>Important:</strong> The cinema screening time is not treated as confirmed. Check GSC’s official listing nearer 1 August before purchasing tickets.
+  </div>
+
+  <div class="footer">Prepared for Sean Lim’s family trip • Last updated July 2026</div>
+</div>
+
+<div class="sharebar">
+  <button class="btn primary" onclick="sharePage()">Share itinerary</button>
+  <button class="btn" onclick="window.print()">Save as PDF</button>
+</div>
+
+<script>
+async function sharePage(){
+  const data = {
+    title: "JB Family Getaway • 1–2 Aug 2026",
+    text: "Family itinerary for Johor Bahru, including lunch, dinner, hotel and optional movie.",
+    url: window.location.href
+  };
+  try {
+    if (navigator.share) await navigator.share(data);
+    else {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Page link copied.");
+    }
+  } catch(e) {}
+}
+</script>
+</body>
+</html>
